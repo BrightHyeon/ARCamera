@@ -13,6 +13,7 @@
 		96B2924F28BF4A9500544DA7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96B2924D28BF4A9500544DA7 /* Main.storyboard */; };
 		96B2925128BF4A9800544DA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96B2925028BF4A9800544DA7 /* Assets.xcassets */; };
 		96B2925428BF4A9800544DA7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96B2925228BF4A9800544DA7 /* LaunchScreen.storyboard */; };
+		96B2925B28BF4BB500544DA7 /* HeartPose1.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 96B2925A28BF4BB500544DA7 /* HeartPose1.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		96B2924E28BF4A9500544DA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		96B2925028BF4A9800544DA7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		96B2925328BF4A9800544DA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		96B2925A28BF4BB500544DA7 /* HeartPose1.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = HeartPose1.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 				96B2924728BF4A9500544DA7 /* AppDelegate.swift */,
 				96B2924928BF4A9500544DA7 /* ViewController.swift */,
 				96B2924B28BF4A9500544DA7 /* Experience.rcproject */,
+				96B2925A28BF4BB500544DA7 /* HeartPose1.mlmodel */,
 				96B2924D28BF4A9500544DA7 /* Main.storyboard */,
 				96B2925028BF4A9800544DA7 /* Assets.xcassets */,
 				96B2925228BF4A9800544DA7 /* LaunchScreen.storyboard */,
@@ -138,6 +141,7 @@
 			files = (
 				96B2924A28BF4A9500544DA7 /* ViewController.swift in Sources */,
 				96B2924828BF4A9500544DA7 /* AppDelegate.swift in Sources */,
+				96B2925B28BF4BB500544DA7 /* HeartPose1.mlmodel in Sources */,
 				96B2924C28BF4A9500544DA7 /* Experience.rcproject in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
