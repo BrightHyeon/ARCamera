@@ -12,20 +12,6 @@ class ViewController: UIViewController {
     
     @IBOutlet var arView: ARView!
     
-    private lazy var fixButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 100, y: 600, width: 80, height: 80))
-        button.setTitle("FIX", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 8
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOffset = CGSize(width: 1.0, height: 4.0)
-        button.layer.shadowRadius = 2
-        button.layer.shadowOpacity = 0.4
-        button.addTarget(self, action: #selector(fixHeart), for: .touchUpInside)
-        return button
-    }()
-    
     // coreml model
     private var model: HandPose?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
@@ -38,9 +24,11 @@ class ViewController: UIViewController {
     private var heart: Heart?
     let configuration = ARWorldTrackingConfiguration()
     
-    private var previousValue = 0
+    private var backCount: Int = 0
+    private var preX: Float = 0.0
+    private var preY: Float = 0.0
     private var count: Int = 0
-    private var click: Bool = false
+    private var pick: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,8 +42,6 @@ class ViewController: UIViewController {
         
         cameraAnchor = AnchorEntity(.camera)
         arView.scene.addAnchor(cameraAnchor!)
-        
-        arView.addSubview(fixButton)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,36 +66,39 @@ class ViewController: UIViewController {
     
     private func updateHeartPreview(simd: SIMD3<Float>) {
         if let cameraAnchor = cameraAnchor {
-            print("child: \(cameraAnchor.children.count)")
             if cameraAnchor.children.count == 0 {
                 heart = Heart()
-                print("새로 생성")
                 cameraAnchor.addChild(heart!)
                 cameraAnchor.position = SIMD3(SCNVector3(simd.x * 50, simd.y * 50, simd.z * 50))
             } else {
                 cameraAnchor.position = SIMD3(SCNVector3(simd.x * 50, simd.y * 50, simd.z * 50))
-                print("Z: \(simd.z * 40)")
+//                print("X좌표: \(simd.x * 50)")
+//                print("Y좌표: \(simd.y * 50)")
+                print(count)
                 
-//                if simd.z * 40 > previousValue - 10 || simd.z * 40 < previousValue + 10 {
-//                    count += 1
-//                } else {
-//                    previousValue = simd.z * 40
-//                }
-//                if count > 30 {
-//                    click = true
-//                }
-//                if click {
-//                    click()
-//                    count = 0
-//                    click = false
-//                }
+                if simd.x*50 > preX - 0.03 &&
+                    simd.x*50 < preX + 0.03 &&
+                    simd.y*50 > preY - 0.03 &&
+                    simd.y*50 < preY + 0.03 {
+                    count += 1
+                } else {
+                    count = 0
+                    preX = simd.x*50
+                    preY = simd.y*50
+                }
+                
+                if count > 20 {
+                    count = 0
+                    fixHeart()
+                }
+                
+                // 위치가 바뀌지않았어도 몇 번 이상 background가 나올 경우, count reset.
             }
         } else {
             addHeartPreview()
         }
     }
     
-    @objc
     func fixHeart() {
         guard let heart = heart, heart.isEnabled else { return }
         let heartWorldTransform = heart.transformMatrix(relativeTo: nil)
@@ -160,7 +149,7 @@ extension ViewController: ARSessionDelegate {
             guard let label = handPosePrediction?.label,
                   let confidence = confidence else { return }
             
-            if label == "heart" && confidence > 0.9 {
+            if label == "heart" && confidence > 0.8 {
                 if let fingerPoint = try? handObservation?.recognizedPoint(.thumbTip) {
                     // Question. x, y 왜 바뀐 느낌이지.
                     // x는 위일수록 0, 아래일수록 1. y는 왼일수록 0, 우일수록 1.\
@@ -169,9 +158,14 @@ extension ViewController: ARSessionDelegate {
                     let simd = arView.unproject(heartFingerPostion, viewport: arView.bounds)!
                     updateHeartPreview(simd: simd)
                 }
+                backCount = 0
             } else {
                 guard let cameraAnchor = cameraAnchor else { return }
                 cameraAnchor.children.removeAll()
+                backCount += 1
+                if backCount > 7 {
+                    count = 0
+                }
             }
         }
     }
