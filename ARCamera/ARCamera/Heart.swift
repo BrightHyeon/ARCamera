@@ -34,7 +34,7 @@ class Heart: Entity, HasModel {
                 }
                 self.cancellable?.cancel()
             } receiveValue: { [weak self] entity in
-                print("왜")
+                print("하트 생성~!!")
                 self?.addChild(entity)
             }
     }

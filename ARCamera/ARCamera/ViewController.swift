@@ -12,6 +12,20 @@ class ViewController: UIViewController {
     
     @IBOutlet var arView: ARView!
     
+    private lazy var fixButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 100, y: 600, width: 80, height: 80))
+        button.setTitle("FIX", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 8
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 1.0, height: 4.0)
+        button.layer.shadowRadius = 2
+        button.layer.shadowOpacity = 0.4
+        button.addTarget(self, action: #selector(fixHeart), for: .touchUpInside)
+        return button
+    }()
+    
     // coreml model
     private var model: HandPose?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
@@ -20,9 +34,13 @@ class ViewController: UIViewController {
     private var frameCounter: Int = 0
     private var handPosePredictionInterval: Int = 5
     
-    private let cameraAnchor = AnchorEntity(.camera)
+    private var cameraAnchor: AnchorEntity?
+    private var heart: Heart?
+    let configuration = ARWorldTrackingConfiguration()
     
-    var y = 0.1
+    private var previousValue = 0
+    private var count: Int = 0
+    private var click: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +52,16 @@ class ViewController: UIViewController {
         
         arView.session.delegate = self
         
-        arView.scene.addAnchor(cameraAnchor)
+        cameraAnchor = AnchorEntity(.camera)
+        arView.scene.addAnchor(cameraAnchor!)
+        
+        arView.addSubview(fixButton)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        arView.session.run(configuration)
     }
     
     private func setupModel() {
@@ -46,14 +73,49 @@ class ViewController: UIViewController {
         }
     }
     
+    private func addHeartPreview() {
+        self.cameraAnchor = AnchorEntity(.camera)
+        arView.scene.addAnchor(cameraAnchor!)
+    }
+    
     private func updateHeartPreview(simd: SIMD3<Float>) {
-        if cameraAnchor.children.count == 0 {
-            let heart = Heart()
-            cameraAnchor.addChild(heart)
-            cameraAnchor.position = SIMD3(SCNVector3(simd.x * 1000, simd.y * 1000, simd.z * 1000))
+        if let cameraAnchor = cameraAnchor {
+            print("child: \(cameraAnchor.children.count)")
+            if cameraAnchor.children.count == 0 {
+                heart = Heart()
+                print("새로 생성")
+                cameraAnchor.addChild(heart!)
+                cameraAnchor.position = SIMD3(SCNVector3(simd.x * 50, simd.y * 50, simd.z * 50))
+            } else {
+                cameraAnchor.position = SIMD3(SCNVector3(simd.x * 50, simd.y * 50, simd.z * 50))
+                print("Z: \(simd.z * 40)")
+                
+//                if simd.z * 40 > previousValue - 10 || simd.z * 40 < previousValue + 10 {
+//                    count += 1
+//                } else {
+//                    previousValue = simd.z * 40
+//                }
+//                if count > 30 {
+//                    click = true
+//                }
+//                if click {
+//                    click()
+//                    count = 0
+//                    click = false
+//                }
+            }
         } else {
-            cameraAnchor.position = SIMD3(SCNVector3(simd.x * 1000, simd.y * 1000, simd.z * 1000))
+            addHeartPreview()
         }
+    }
+    
+    @objc
+    func fixHeart() {
+        guard let heart = heart, heart.isEnabled else { return }
+        let heartWorldTransform = heart.transformMatrix(relativeTo: nil)
+        heart.anchor?.reanchor(.world(transform: heartWorldTransform))
+        self.heart = nil
+        self.cameraAnchor = nil
     }
 }
 
@@ -108,6 +170,7 @@ extension ViewController: ARSessionDelegate {
                     updateHeartPreview(simd: simd)
                 }
             } else {
+                guard let cameraAnchor = cameraAnchor else { return }
                 cameraAnchor.children.removeAll()
             }
         }
