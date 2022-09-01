@@ -5,17 +5,15 @@
 //  Created by Hyeonsoo Kim on 2022/08/31.
 //
 
-import UIKit
 import ARKit
 import RealityKit
-import SceneKit
 
 class ViewController: UIViewController {
     
     @IBOutlet var arView: ARView!
     
     // coreml model
-    private var model: HeartPose1?
+    private var model: HandPose?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     
     // smoothly
@@ -25,15 +23,6 @@ class ViewController: UIViewController {
     private let cameraAnchor = AnchorEntity(.camera)
     
     var y = 0.1
-    
-    // to get simd_position
-    private var heartFingerPostion: CGPoint? {
-        didSet {
-            
-        }
-    }
-    
-    //    private var heartPreview: Heart
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,22 +40,19 @@ class ViewController: UIViewController {
     private func setupModel() {
         do {
             let config = MLModelConfiguration()
-            self.model = try HeartPose1(configuration: config)
+            self.model = try HandPose(configuration: config)
         } catch {
             fatalError("Cannot configure coreml model")
         }
     }
     
     private func addHeartPreview(simd: SIMD3<Float>) {
-//        y += 0.05
         
         cameraAnchor.children.removeAll()
         
         let heart = Heart()
         cameraAnchor.addChild(heart)
         
-        
-        print(simd)
         cameraAnchor.position = SIMD3(SCNVector3(simd.x * 1000, simd.y * 1000, simd.z * 1000))
     }
 }
@@ -79,8 +65,6 @@ class ViewController: UIViewController {
 extension ViewController: ARSessionDelegate {
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        
-//        print("ARFrame didUpdate")
         
         frameCounter += 1
         
@@ -98,9 +82,7 @@ extension ViewController: ARSessionDelegate {
             }
             
             // 4. Get results.  VNHumanHandPoseObservations.
-            guard let handPoses = handPoseRequest.results, !handPoses.isEmpty else {
-                return // No effects to draw, so clear out current graphics
-            }
+            guard let handPoses = handPoseRequest.results, !handPoses.isEmpty else { return }
             
             let handObservation = handPoses.first // 5. One hand
             
@@ -112,32 +94,18 @@ extension ViewController: ARSessionDelegate {
             // 7. confidence
             let confidence = handPosePrediction?.labelProbabilities[handPosePrediction?.label ?? "nil이다."]
             
-//            print(handPosePrediction!.label)
-            
             guard let label = handPosePrediction?.label,
                   let confidence = confidence else { return }
             
             if label == "heartPose" && confidence > 0.9 {
                 if let fingerPoint = try? handObservation?.recognizedPoint(.thumbTip) {
-                    heartFingerPostion = CGPoint(x: fingerPoint.x * arView.bounds.width,
-                                                 y: fingerPoint.y * arView.bounds.height)
-//                    print(heartFingerPostion)
                     // Question. x, y 왜 바뀐 느낌이지.
-                    // x는 위일수록 0, 아래일수록 1. y는 왼일수록 0, 우일수록 1.
-//                    print("fingerXXX: \(fingerPoint.location.x)")
-//                    print("finYYYYYY: \(fingerPoint.location.y)")
-                    let thumbTip = CGPoint(x: fingerPoint.location.x, y: 1 - fingerPoint.location.y)
-//
-                    heartFingerPostion = CGPoint(x: fingerPoint.y * arView.bounds.width,
-                                                 y: fingerPoint.x * arView.bounds.height)
-//                    print("AVCoordinates: \(heartFingerPostion)")
-                    let simd = arView.unproject(heartFingerPostion!, viewport: arView.bounds)!
+                    // x는 위일수록 0, 아래일수록 1. y는 왼일수록 0, 우일수록 1.\
+                    let heartFingerPostion = CGPoint(x: fingerPoint.y * arView.bounds.width,
+                                                     y: fingerPoint.x * arView.bounds.height)
+                    let simd = arView.unproject(heartFingerPostion, viewport: arView.bounds)!
                     addHeartPreview(simd: simd)
-//                    print(simd)
                 }
-            } else {
-                heartFingerPostion = nil
-                
             }
         }
     }
