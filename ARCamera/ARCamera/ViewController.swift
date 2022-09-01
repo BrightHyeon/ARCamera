@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
     // smoothly
     private var frameCounter: Int = 0
-    private var handPosePredictionInterval: Int = 10
+    private var handPosePredictionInterval: Int = 5
     
     private let cameraAnchor = AnchorEntity(.camera)
     
@@ -46,14 +46,14 @@ class ViewController: UIViewController {
         }
     }
     
-    private func addHeartPreview(simd: SIMD3<Float>) {
-        
-        cameraAnchor.children.removeAll()
-        
-        let heart = Heart()
-        cameraAnchor.addChild(heart)
-        
-        cameraAnchor.position = SIMD3(SCNVector3(simd.x * 1000, simd.y * 1000, simd.z * 1000))
+    private func updateHeartPreview(simd: SIMD3<Float>) {
+        if cameraAnchor.children.count == 0 {
+            let heart = Heart()
+            cameraAnchor.addChild(heart)
+            cameraAnchor.position = SIMD3(SCNVector3(simd.x * 1000, simd.y * 1000, simd.z * 1000))
+        } else {
+            cameraAnchor.position = SIMD3(SCNVector3(simd.x * 1000, simd.y * 1000, simd.z * 1000))
+        }
     }
 }
 
@@ -65,7 +65,7 @@ class ViewController: UIViewController {
 extension ViewController: ARSessionDelegate {
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        
+    
         frameCounter += 1
         
         if frameCounter % handPosePredictionInterval == 0 {
@@ -77,6 +77,7 @@ extension ViewController: ARSessionDelegate {
             
             do {
                 try handler.perform([handPoseRequest]) // 3. Perform
+                
             } catch {
                 assertionFailure("Human Pose Request failed: \(error)")
             }
@@ -97,15 +98,17 @@ extension ViewController: ARSessionDelegate {
             guard let label = handPosePrediction?.label,
                   let confidence = confidence else { return }
             
-            if label == "heartPose" && confidence > 0.9 {
+            if label == "heart" && confidence > 0.9 {
                 if let fingerPoint = try? handObservation?.recognizedPoint(.thumbTip) {
                     // Question. x, y 왜 바뀐 느낌이지.
                     // x는 위일수록 0, 아래일수록 1. y는 왼일수록 0, 우일수록 1.\
                     let heartFingerPostion = CGPoint(x: fingerPoint.y * arView.bounds.width,
                                                      y: fingerPoint.x * arView.bounds.height)
                     let simd = arView.unproject(heartFingerPostion, viewport: arView.bounds)!
-                    addHeartPreview(simd: simd)
+                    updateHeartPreview(simd: simd)
                 }
+            } else {
+                cameraAnchor.children.removeAll()
             }
         }
     }
