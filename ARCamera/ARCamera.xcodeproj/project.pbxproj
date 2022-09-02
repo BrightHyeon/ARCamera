@@ -16,6 +16,7 @@
 		96B2925D28BFB7D600544DA7 /* Heart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B2925C28BFB7D600544DA7 /* Heart.swift */; };
 		96EE201428C0D7E200084DE1 /* love.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 96EE201328C0D7E200084DE1 /* love.usdz */; };
 		96EE201828C0D84B00084DE1 /* HandPose.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 96EE201728C0D84B00084DE1 /* HandPose.mlmodel */; };
+		96EE201C28C1A2C300084DE1 /* SystemSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EE201B28C1A2C300084DE1 /* SystemSound.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		96B2925C28BFB7D600544DA7 /* Heart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heart.swift; sourceTree = "<group>"; };
 		96EE201328C0D7E200084DE1 /* love.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = love.usdz; sourceTree = "<group>"; };
 		96EE201728C0D84B00084DE1 /* HandPose.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = HandPose.mlmodel; sourceTree = "<group>"; };
+		96EE201B28C1A2C300084DE1 /* SystemSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSound.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 			children = (
 				96B2924728BF4A9500544DA7 /* AppDelegate.swift */,
 				96B2924928BF4A9500544DA7 /* ViewController.swift */,
+				96EE201B28C1A2C300084DE1 /* SystemSound.swift */,
 				96B2925C28BFB7D600544DA7 /* Heart.swift */,
 				96EE201328C0D7E200084DE1 /* love.usdz */,
 				96B2924B28BF4A9500544DA7 /* Experience.rcproject */,
@@ -150,6 +153,7 @@
 				96B2924828BF4A9500544DA7 /* AppDelegate.swift in Sources */,
 				96EE201828C0D84B00084DE1 /* HandPose.mlmodel in Sources */,
 				96B2925D28BFB7D600544DA7 /* Heart.swift in Sources */,
+				96EE201C28C1A2C300084DE1 /* SystemSound.swift in Sources */,
 				96B2924C28BF4A9500544DA7 /* Experience.rcproject in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,6 +304,7 @@
 				DEVELOPMENT_TEAM = B2RV52W8G3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앨범에 접근할 수 있게 해주세요.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -330,6 +335,7 @@
 				DEVELOPMENT_TEAM = B2RV52W8G3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앨범에 접근할 수 있게 해주세요.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

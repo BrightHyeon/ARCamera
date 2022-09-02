@@ -14,15 +14,11 @@ class Heart: Entity, HasModel {
     private var cancellable: AnyCancellable?
     
     private var heartColor: SimpleMaterial.Color = .gray
-    private var heartEntity: ModelEntity?
+//    let material = SimpleMaterial(color: .gray, isMetallic: true)
     
     required init() {
         super.init()
-        
-//        let heart = MeshResource.generateSphere(radius: 0.3)
-//        let material = SimpleMaterial(color: .gray, isMetallic: true)
-//        let heartEntity = ModelEntity(mesh: heart, materials: [material])
-//        addChild(heartEntity)
+
         makeHeart()
     }
     
@@ -39,3 +35,9 @@ class Heart: Entity, HasModel {
             }
     }
 }
+
+/*
+ occlusion,
+ model color,
+ mlmodel 멍청함.
+ */

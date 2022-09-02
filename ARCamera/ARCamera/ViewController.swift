@@ -10,6 +10,8 @@ import RealityKit
 
 class ViewController: UIViewController {
     
+    // MARK: Properties
+    
     @IBOutlet var arView: ARView!
     
     // coreml model
@@ -30,6 +32,14 @@ class ViewController: UIViewController {
     private var count: Int = 0
     private var pick: Bool = false
     
+    private lazy var snapButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "metalButton"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(snapShot), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,6 +52,9 @@ class ViewController: UIViewController {
         
         cameraAnchor = AnchorEntity(.camera)
         arView.scene.addAnchor(cameraAnchor!)
+        
+        arView.addSubview(snapButton)
+        makeConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,12 +112,27 @@ class ViewController: UIViewController {
         }
     }
     
-    func fixHeart() {
+    private func fixHeart() {
         guard let heart = heart, heart.isEnabled else { return }
         let heartWorldTransform = heart.transformMatrix(relativeTo: nil)
         heart.anchor?.reanchor(.world(transform: heartWorldTransform))
         self.heart = nil
         self.cameraAnchor = nil
+    }
+    /*
+     //1. Create A Snapshot
+     let snapShot = self.augmentedRealityView.snapshot()
+
+     //2. Save It The Photos Album
+     UIImageWriteToSavedPhotosAlbum(snapShot, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+     */
+    @objc
+    func snapShot() {
+        // saveToHDR을 false로 하면 사진이 굉장히 어둡게 나온다.
+        SystemSound.shared.playSystemSound(id: 1108)
+        self.arView.snapshot(saveToHDR: false) { image in
+            UIImageWriteToSavedPhotosAlbum(image ?? UIImage(), nil, nil, nil)
+        }
     }
 }
 
@@ -168,5 +196,15 @@ extension ViewController: ARSessionDelegate {
                 }
             }
         }
+    }
+    
+    private func makeConstraints() {
+        let constraints = [
+            snapButton.bottomAnchor.constraint(equalTo: arView.bottomAnchor, constant: -30),
+            snapButton.centerXAnchor.constraint(equalTo: arView.centerXAnchor),
+            snapButton.widthAnchor.constraint(equalToConstant: 80),
+            snapButton.heightAnchor.constraint(equalToConstant: 80)
+        ]
+        NSLayoutConstraint.activate(constraints)
     }
 }
