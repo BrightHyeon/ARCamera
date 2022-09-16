@@ -47,8 +47,3 @@
 [Apple - AVFoundation](https://developer.apple.com/av-foundation/)<br>
 [Apple Documentation - Vision](https://developer.apple.com/documentation/vision)<br>
 [Apple Documentation - CreateML](https://developer.apple.com/documentation/createml)
-
-
-## License
-
-[APACHE 2.0](https://github.com/JungYunseong/NC2-Neis-AgeEstimation/blob/main/LICENSE)
