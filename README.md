@@ -24,7 +24,7 @@
 
 ## Authors
 
-- [@BrightHyeon]([swiftist9891@gmail.com](https://github.com/BrightHyeon))
+- [@BrightHyeon](https://github.com/BrightHyeon)
 
 
 ## Screenshots
