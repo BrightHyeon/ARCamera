@@ -35,15 +35,6 @@
 ## Skills & Tech Stack
 <img src="https://img.shields.io/badge/Swift-F05138?style=for-the-badge&logo=Swift&logoColor=white"><br>
 * SwiftUI
-* AVFoundation
 * Vision
 * CreateML
-* Lottie
-
-
-## Documentation
-
-[Apple - SwiftUI](https://developer.apple.com/kr/xcode/swiftui/)<br>
-[Apple - AVFoundation](https://developer.apple.com/av-foundation/)<br>
-[Apple Documentation - Vision](https://developer.apple.com/documentation/vision)<br>
-[Apple Documentation - CreateML](https://developer.apple.com/documentation/createml)
+* RealityKit
