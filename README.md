@@ -9,7 +9,7 @@
   <a href="#License">License</a>
 </p>
 
-![thumbnail](https://user-images.githubusercontent.com/95982751/187988899-0bb5dcd5-7d0d-4b7f-9bbe-c849de6bdfac.png)
+![thumbnail](https://user-images.githubusercontent.com/95853235/190576378-778eb5fb-5463-4036-b5b9-3c8624c07f6a.JPG)
 
 
 ## Key Features
@@ -25,11 +25,6 @@
 ## Authors
 
 - [@BrightHyeon](https://github.com/BrightHyeon)
-
-
-## Screenshots
-|<img src="https://user-images.githubusercontent.com/95982751/187985176-116d70ce-3365-4b0b-b51e-91274000a146.png" width=300>|<img src="https://user-images.githubusercontent.com/95982751/187985257-e7bcbdcd-96ca-4ab7-b2f3-b90360b5c7a3.png" width=300>|<img src="https://user-images.githubusercontent.com/95982751/187985333-23549477-88d6-49fe-85ed-10e44286f0e0.png" width=300>|
-|----|---|---|
 
 
 ## Skills & Tech Stack
