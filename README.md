@@ -9,7 +9,8 @@
   <a href="#License">License</a>
 </p>
 
-![thumbnail](https://user-images.githubusercontent.com/95853235/190576378-778eb5fb-5463-4036-b5b9-3c8624c07f6a.JPG)
+<![thumbnail](https://user-images.githubusercontent.com/95853235/190576378-778eb5fb-5463-4036-b5b9-3c8624c07f6a.JPG) width=300>
+<img src="https://user-images.githubusercontent.com/95853235/190576378-778eb5fb-5463-4036-b5b9-3c8624c07f6a.JPG" width=300>
 <img src="https://user-images.githubusercontent.com/95853235/190576378-778eb5fb-5463-4036-b5b9-3c8624c07f6a.JPG" width=300>
 
 
