@@ -4,9 +4,7 @@
 <p align="center">
   <a href="#Key-Features">Key Features</a> •
   <a href="#Authors">Authors</a> •
-  <a href="#Screenshots">Screenshots</a> •
-  <a href="#Skills--Tech-Stack">Skills & Tech Stack</a> •
-  <a href="#License">License</a>
+  <a href="#Skills--Tech-Stack">Skills & Tech Stack</a>
 </p>
 
 <img src="https://user-images.githubusercontent.com/95853235/190576378-778eb5fb-5463-4036-b5b9-3c8624c07f6a.JPG" width=300>
