@@ -1,4 +1,4 @@
-# ARCamera
+# 📷 ARCamera
 카메라 환경에서 3D Model을 띄어 사진을 찍는 앱
 
 <p align="center">
@@ -11,10 +11,6 @@
 
 ![thumbnail](https://user-images.githubusercontent.com/95982751/187988899-0bb5dcd5-7d0d-4b7f-9bbe-c849de6bdfac.png)
 
-
-# :iphone: Project Title
-
-### AI 나이측정 테스트, How Old Am I
 
 ## Key Features
 
